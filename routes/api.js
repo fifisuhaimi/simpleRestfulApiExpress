@@ -18,7 +18,7 @@ const studentMapping = (student) => {
 router.get("/student/:id", function (req, res, next) {
   const student = students.filter((s) => s.id === req.params.id);
   if (student.length) {
-    res.json(200, _.first(student));
+    res.status(200).json(_.first(student));
   } else {
     res.json(404, {
       errorDescription: `Student with id ${req.params.id} record not found`,
@@ -29,11 +29,11 @@ router.get("/student/:id", function (req, res, next) {
 /* GET list of registered student. */
 router.get("/students", function (req, res, next) {
   const mappedStudents = students.map((student) => studentMapping(student));
-  res.json(200, mappedStudents);
+  res.status(200).json(mappedStudents);
 });
 
 /* CREATE student. */
-router.post("/student/register", function (req, res, next) {
+router.post("/student", function (req, res, next) {
   const student = {
     id: uuid(),
     ...req.body,
@@ -61,7 +61,7 @@ router.put("/student/:id", function (req, res, next) {
 
   students.push(student);
 
-  res.json(200, {
+  res.status(200).json({
     id: req.params.id,
   });
 });
@@ -71,7 +71,7 @@ router.delete("/student/:id", function (req, res, next) {
   _.remove(students, (student) => {
     return student.id === req.params.id;
   });
-  res.json(200, {
+  res.status(200).json({
     id: req.params.id,
   });
 });
